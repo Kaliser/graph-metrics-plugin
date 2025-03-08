@@ -1,0 +1,10 @@
+{
+	"id": "graph-metrics",
+	"name": "Graph Metrics",
+	"version": "0.8.0",
+	"minAppVersion": "0.15.0",
+	"description": "Analyze connections and relationships between notes with path finding and network metrics.",
+	"author": "kaliser",
+	"authorUrl": "kaliser.com",
+	"isDesktopOnly": false
+}

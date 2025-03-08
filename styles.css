@@ -1,0 +1,384 @@
+.graph-metrics-modal {
+  max-width: 800px;
+  width: 100%;
+}
+
+.results-container {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: var(--background-secondary);
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.input-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.input-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--background-modifier-border);
+}
+
+/* Button Styles */
+button.mod-cta {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.swap-button {
+  margin-top: 5px;
+  margin-bottom: 15px;
+  padding: 4px 8px;
+  background-color: var(--interactive-normal);
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.cancel-button {
+  background-color: var(--text-error);
+  color: white;
+}
+
+.export-button {
+  margin-top: 20px;
+  padding: 8px 16px;
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Path Visualization */
+.path-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: var(--background-primary);
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.path-node {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.path-node:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.path-arrow {
+  margin: 0 4px;
+  color: var(--text-muted);
+  font-weight: bold;
+}
+
+/* Alternative Paths */
+.alt-paths-container {
+  margin-bottom: 20px;
+}
+
+.alt-path-section {
+  margin-bottom: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.alt-path-summary {
+  padding: 10px;
+  background-color: var(--background-primary);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.alt-path-summary:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+/* Chart Styles */
+.metrics-container {
+  margin-bottom: 20px;
+}
+
+.chart-container {
+  margin-top: 10px;
+}
+
+.bar-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.bar-label {
+  width: 150px;
+  flex-shrink: 0;
+  padding-right: 10px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.bar-label:hover {
+  color: var(--interactive-accent);
+  text-decoration: underline;
+}
+
+.bar-wrapper {
+  flex-grow: 1;
+  height: 20px;
+  background-color: var(--background-modifier-border);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.bar {
+  height: 100%;
+  background-color: var(--interactive-accent);
+  border-radius: 4px;
+  position: relative;
+}
+
+.bar::after {
+  content: attr(data-value);
+  position: absolute;
+  right: 8px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  color: var(--text-on-accent);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.density-bar {
+  background-color: var(--color-green);
+}
+
+/* Loading and Status Styles */
+.loading-container {
+  margin: 15px 0;
+  padding: 15px;
+  background-color: var(--background-secondary);
+  border-radius: 4px;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: var(--background-modifier-border);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-indicator {
+  height: 100%;
+  background-color: var(--interactive-accent);
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.status-message {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* Options Container */
+.options-container {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: var(--background-secondary);
+  border-radius: 4px;
+}
+
+.option-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.option-container label {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.option-container input {
+  width: 80px;
+}
+
+/* Summary Box */
+.summary-container {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: var(--background-primary-alt);
+  border-radius: 4px;
+  border-left: 4px solid var(--interactive-accent);
+}
+
+.summary-box {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.summary-box.no-connection {
+  border-left-color: var(--text-error);
+}
+
+/* Settings Tab */
+.settings-footer {
+  margin-top: 30px;
+}
+
+.results-container {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: var(--background-secondary);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.input-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.input-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid var(--background-modifier-border);
+}
+
+button.mod-cta {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.path-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 8px;
+  background-color: var(--background-primary);
+  border-radius: 4px;
+}
+
+.path-node {
+  background-color: var(--interactive-accent);
+  color: var(--text-on-accent);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin: 2px;
+}
+
+.path-arrow {
+  margin: 0 2px;
+  color: var(--text-muted);
+}
+
+.error-message {
+  color: var(--text-error);
+  font-weight: bold;
+}
+
+.path-node {
+  background-color: var(--background-primary);
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin: 4px;
+  cursor: pointer;
+  border: 1px solid var(--background-modifier-border);
+  font-weight: 500;
+}
+
+.path-node:hover {
+  background-color: var(--background-modifier-hover);
+}
+
+.path-arrow {
+  margin: 0 2px;
+  font-weight: bold;
+}
+
+.path-arrow.direct-link {
+  color: var(--text-accent);
+}
+
+.path-arrow.backlink {
+  color: var(--text-error);
+}
+
+.path-arrow.tag-link {
+  color: var(--text-success);
+}
+
+.path-arrow.embedded-link {
+  color: var(--text-warning);
+}
+
+.connection-legend {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: var(--background-secondary-alt);
+  border-radius: 8px;
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-name {
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.legend-desc {
+  font-size: 0.9em;
+  color: var(--text-muted);
+}

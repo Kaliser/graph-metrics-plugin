@@ -1,6 +1,8 @@
 import { App, Modal, Notice, Plugin, PluginSettingTab, Setting, TFile } from 'obsidian';
 import { EnhancedGraphService } from './enhanced-graph-service';
 import { ConnectionAwareGraphMetricsModal } from './connection-aware-modal';
+import { HubAnalysisModal } from './hub-analysis-modal';
+import { HubDetectionService } from './hub-detection-service';
 
 interface GraphMetricsSettings {
     defaultStartNote: string;
@@ -18,6 +20,8 @@ interface GraphMetricsSettings {
     adaptiveAlgorithms: boolean;
     showConnectionTypes: boolean;
     highlightTagConnections: boolean;
+    hubAnalysisDefaultMetric: 'pageRank' | 'inDegree' | 'outDegree' | 'totalDegree' | 'eigenvectorCentrality' | 'bridgingCoefficient';
+    defaultHubCount: number;
 }
 
 const DEFAULT_SETTINGS: GraphMetricsSettings = {
@@ -35,7 +39,9 @@ const DEFAULT_SETTINGS: GraphMetricsSettings = {
     algorithmPreference: 'auto',
     adaptiveAlgorithms: true,
     showConnectionTypes: true,
-    highlightTagConnections: true
+    highlightTagConnections: true,
+    hubAnalysisDefaultMetric: 'pageRank',
+    defaultHubCount: 20
 }
 
 export default class GraphMetricsPlugin extends Plugin {
@@ -43,15 +49,28 @@ export default class GraphMetricsPlugin extends Plugin {
     cachedGraph: Record<string, string[]> | null = null;
     lastCacheTime: number = 0;
     graphService: EnhancedGraphService;
+    hubService: HubDetectionService;
 
     async onload() {
         await this.loadSettings();
         this.graphService = new EnhancedGraphService(this.app, this.settings);
+        this.hubService = new HubDetectionService(this.app, this.settings, this.graphService);
 
         this.addRibbonIcon('network', 'Graph Metrics', () => {
             new ConnectionAwareGraphMetricsModal(this.app, this).open();
         });
+        this.addRibbonIcon('star', 'Hub Analysis', () => {
+            new HubAnalysisModal(this.app, this).open();
+        });
 
+        this.addCommand({
+            id: 'analyze-hub-notes',
+            name: 'Analyze Hub Notes',
+            callback: () => {
+                new HubAnalysisModal(this.app, this).open();
+            }
+        });
+        
         this.addCommand({ // main command
             id: 'analyze-note-paths',
             name: 'Analyze Paths Between Notes',
@@ -423,7 +442,36 @@ class GraphMetricsSettingTab extends PluginSettingTab {
                     this.plugin.settings.adaptiveAlgorithms = value;
                     await this.plugin.saveSettings();
                 }));
+        containerEl.createEl('h2', { text: 'Hub Analysis Settings' });
 
+        new Setting(containerEl)
+            .setName('Default Hub Count')
+            .setDesc('Default number of hub notes to display in the analysis')
+            .addSlider(slider => slider
+                .setLimits(5, 100, 5)
+                .setValue(this.plugin.settings.defaultHubCount)
+                .setDynamicTooltip()
+                .onChange(async (value) => {
+                    this.plugin.settings.defaultHubCount = value;
+                    await this.plugin.saveSettings();
+                }));
+
+        new Setting(containerEl)
+            .setName('Default Sort Metric')
+            .setDesc('Choose which metric to sort hub notes by default')
+            .addDropdown(dropdown => dropdown
+                .addOption('pageRank', 'PageRank (Overall Importance)')
+                .addOption('inDegree', 'In-Degree (Incoming Links)')
+                .addOption('outDegree', 'Out-Degree (Outgoing Links)')
+                .addOption('totalDegree', 'Total Connections')
+                .addOption('eigenvectorCentrality', 'Eigenvector Centrality')
+                .addOption('bridgingCoefficient', 'Bridging Coefficient')
+                .setValue(this.plugin.settings.hubAnalysisDefaultMetric)
+                .onChange(async (value) => {
+                    this.plugin.settings.hubAnalysisDefaultMetric = value as any;
+                    await this.plugin.saveSettings();
+                }));
+                
         const footerEl = containerEl.createEl('div', { cls: 'settings-footer' });
         const rebuildButton = footerEl.createEl('button', {
             text: 'Rebuild Graph Cache',

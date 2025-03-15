@@ -382,3 +382,126 @@ button.mod-cta {
   font-size: 0.9em;
   color: var(--text-muted);
 }
+
+.legend-desc {
+  font-size: 0.9em;
+  color: var(--text-muted);
+}
+
+/* Hub Analysis Modal Styles */
+.hub-analysis-modal {
+  max-width: 900px;
+  width: 100%;
+}
+
+.hub-description {
+  margin-bottom: 20px;
+  color: var(--text-muted);
+}
+
+/* Hub Results Table */
+.hub-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.hub-results-table th {
+  padding: 8px 10px;
+  text-align: left;
+  background-color: var(--background-secondary-alt);
+  border-bottom: 2px solid var(--background-modifier-border);
+  font-weight: 600;
+}
+
+.hub-results-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.hub-results-table tr:hover {
+  background-color: var(--background-primary-alt);
+}
+
+.numeric-col {
+  text-align: right;
+}
+
+.table-container {
+  max-height: 500px;
+  overflow-y: auto;
+  margin: 15px 0;
+  background-color: var(--background-primary);
+  border-radius: 5px;
+  border: 1px solid var(--background-modifier-border);
+}
+
+/* Metric Cell with Bar */
+.metric-cell {
+  position: relative;
+  padding-right: 10px;
+  text-align: right;
+}
+
+.bar-container {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  opacity: 0.2;
+}
+
+.bar {
+  background-color: var(--interactive-accent);
+  height: 100%;
+}
+
+.value-text {
+  position: relative;
+  z-index: 2;
+}
+
+/* Note Link */
+.note-link {
+  cursor: pointer;
+  color: var(--text-accent);
+  text-decoration: none;
+}
+
+.note-link:hover {
+  text-decoration: underline;
+}
+
+/* Metrics Legend */
+.metrics-legend {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: var(--background-secondary-alt);
+  border-radius: 8px;
+}
+
+.legend-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.legend-item {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.legend-name {
+  font-weight: 600;
+  min-width: 100px;
+}
+
+.legend-desc {
+  color: var(--text-muted);
+  flex: 1;
+  min-width: 200px;
+}

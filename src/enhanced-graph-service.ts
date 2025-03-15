@@ -30,11 +30,15 @@ export class EnhancedGraphService {
     private app: App;
     private settings: any;
     private cachedGraph: EnhancedGraph | null = null;
-    private lastCacheTime: number = 0;
+    private _graphSize: number = 0;
     
     constructor(app: App, settings: any) {
         this.app = app;
         this.settings = settings;
+    }
+    
+    get graphSize(): number {
+        return this._graphSize;
     }
     
     findNoteByName(name: string): TFile | null {
@@ -58,12 +62,9 @@ export class EnhancedGraphService {
     }
     
     async getGraph(progressCallback?: (message: string, progress: number) => void): Promise<EnhancedGraph> {
-        // using cached graph if available and not too old
         if (
             this.settings.cacheGraphStructure &&
-            this.cachedGraph &&
-            (Date.now() - this.lastCacheTime) < 60000 // 1 minute cache validity
-            // TODO: make cache time configurable. also reconsider time based caches at all
+            this.cachedGraph
         ) {
             if (progressCallback) {
                 progressCallback("Using cached graph...", 100);
@@ -75,9 +76,10 @@ export class EnhancedGraphService {
         
         if (this.settings.cacheGraphStructure) {
             this.cachedGraph = graph;
-            this.lastCacheTime = Date.now();
         }
         
+        this._graphSize = Object.keys(graph).length;
+
         return graph;
     }
     
@@ -265,9 +267,8 @@ export class EnhancedGraphService {
         }
         
         // choose algorithm based on graph size
-        const graphSize = Object.keys(graph).length;
         
-        if (graphSize < 500 || this.settings.algorithmPreference === 'original') {
+        if (this._graphSize < 500 || this.settings.algorithmPreference === 'original') {
             // TODO: check if appropriate threshold
             return this.findShortestPathOriginal(graph, start, end);
         } else {
@@ -720,7 +721,6 @@ export class EnhancedGraphService {
         changeType: 'modify' | 'create' | 'delete'
     ): Promise<void> {
         if (!this.settings.cacheGraphStructure || !this.cachedGraph) {
-            this.lastCacheTime = 0;
             return;
         }
         
@@ -734,7 +734,6 @@ export class EnhancedGraphService {
                 }
             }
             
-            this.lastCacheTime = Date.now();
             return;
         }
         
@@ -747,10 +746,8 @@ export class EnhancedGraphService {
             const files = this.app.vault.getMarkdownFiles();
             await this.processFile(changedFile, this.cachedGraph, files);
             
-            this.lastCacheTime = Date.now();
         } catch (error) {
             console.error(`Error updating graph cache for ${changedFile.path}:`, error);
-            this.lastCacheTime = 0;
         }
     }
 }

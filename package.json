@@ -1,6 +1,6 @@
 {
-  "name": "obsidian-graph-metrics",
-  "version": "1.0.0",
+  "name": "graph-metrics",
+  "version": "0.9.0",
   "description": "Analyze connections between notes in your Obsidian vault",
   "main": "main.js",
   "scripts": {
